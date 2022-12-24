@@ -1,5 +1,6 @@
 import {
   Client,
+  Collection,
   GatewayDispatchEvents,
   GatewayGuildCreateDispatchData,
   GatewayIntentBits,
@@ -19,7 +20,7 @@ const client = new Client({
 dotenv.config();
 
 let ready: GatewayReadyDispatchData | undefined;
-const guilds: GatewayGuildCreateDispatchData[] = [];
+const guilds = new Collection<string, GatewayGuildCreateDispatchData>();
 client.on('raw', (data) => {
   if (data.op !== GatewayOpcodes.Dispatch) return;
   switch (data.t) {
@@ -27,7 +28,13 @@ client.on('raw', (data) => {
       ready = data.d;
       break;
     case GatewayDispatchEvents.GuildCreate:
-      guilds.push(data.d);
+      guilds.set(data.d.id, data.d);
+      break;
+    case GatewayDispatchEvents.GuildUpdate:
+      guilds.set(data.d.id, data.d);
+      break;
+    case GatewayDispatchEvents.GuildDelete:
+      guilds.delete(data.d.id);
       break;
   }
 });

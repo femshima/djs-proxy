@@ -1,6 +1,7 @@
 import { proxyRequests } from '@discordjs/proxy';
 import {
   Client,
+  Collection,
   GatewayDispatchEvents,
   GatewayGuildCreateDispatchData,
   GatewayOpcodes,
@@ -15,7 +16,7 @@ const wss = new WebSocketServer({ server });
 export function setupServer(
   client: Client<true>,
   ready: GatewayReadyDispatchData,
-  guilds: GatewayGuildCreateDispatchData[]
+  guilds: Collection<string, GatewayGuildCreateDispatchData>
 ) {
   const proxy = proxyRequests(client.rest);
 
@@ -39,6 +40,7 @@ export function setupServer(
 
   wss.on('connection', (ws) => {
     ws.on('message', (data) => {
+      // eslint-disable-next-line @typescript-eslint/no-base-to-string
       const d = JSON.parse(data.toString('utf-8')) as { op: number; d: object };
       switch (d.op) {
         case GatewayOpcodes.Heartbeat:
@@ -62,7 +64,7 @@ export function setupServer(
               },
             })
           );
-          for (const guild of guilds) {
+          for (const [_id, guild] of guilds) {
             ws.send(
               JSON.stringify({
                 op: GatewayOpcodes.Dispatch,
