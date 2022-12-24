@@ -2,7 +2,15 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "../../dist",
-    "declaration": true,
-    "emitDeclarationOnly": true
+
+    "target": "ESNext",
+    "lib": ["ESNext"],
+
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+
+    "sourceMap": true,
+    "noEmitOnError": true
   }
 }
