@@ -1,0 +1,21 @@
+{
+  "name": "discord.js-proxy",
+  "version": "0.0.0",
+  "private": true,
+  "description": "",
+  "author": "femshima",
+  "scripts": {
+    "prepare": "simple-git-hooks"
+  },
+  "devDependencies": {
+    "@tsconfig/node18-strictest-esm": "^1.0.1",
+    "@typescript-eslint/eslint-plugin": "^5.47.0",
+    "@typescript-eslint/parser": "^5.47.0",
+    "eslint": "^8.30.0",
+    "eslint-config-prettier": "^8.5.0",
+    "lint-staged": "^13.1.0",
+    "prettier": "^2.8.1",
+    "simple-git-hooks": "^2.8.1",
+    "typescript": "^4.9.4"
+  }
+}
